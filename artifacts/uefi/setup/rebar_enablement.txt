@@ -1,0 +1,44 @@
+ReBAR (Resizable BAR) - variáveis e dependências
+
+Fontes:
+- IFR: artifacts/uefi/setup/Setup.ifr.txt
+
+Variável principal (ReBAR):
+- Prompt: "PCIE Resizable BAR Support"
+- VarStore: SaSetup
+- GUID: 72C5E28C-7783-43A1-8767-FAD73FCCAFA4
+- VarStoreId: 0x4
+- QuestionId: 0x9AF
+- VarOffset: 0x42B (Size 8)
+- Valores: Enabled=1, Disabled=0 (Default)
+- Observação: Está dentro de "SuppressIf True" no IFR (linha ~19283), então fica oculto mesmo com menus expostos. Para ativar, é necessário setar o valor direto no NVRAM.
+
+Dependências recomendadas para ReBAR funcionar sem erro:
+1) Above 4GB MMIO BIOS assignment
+   - QuestionId: 0x630
+   - VarStoreId: 0x4 (SaSetup)
+   - VarOffset: 0x7E (Size 8)
+   - Valores: Enabled=1, Disabled=0
+   - Nota do IFR: automaticamente habilitado ao usar Aperture Size 2048MB e requer CSM desativado.
+
+2) Memory Remap
+   - QuestionId: 0x615
+   - VarStoreId: 0x4 (SaSetup)
+   - VarOffset: 0x23B (Size 8)
+   - Valores: Enabled=1, Disabled=0
+
+3) CSM Support (desativar)
+   - VarStore: Setup
+   - GUID: EC87D643-EBA4-4BB5-A1E5-3F3E36B20DA9
+   - VarStoreId: 0xF101
+   - QuestionId: 0x2908
+   - VarOffset: 0xC67 (Size 8)
+   - Valores: Disabled=0, Enabled=1
+
+Checklist rápido para uso sem limitações:
+- Setar ReBAR = 1
+- Confirmar Above 4GB MMIO = 1
+- Confirmar Memory Remap = 1
+- Confirmar CSM Support = 0
+
+Dica de segurança: antes de alterar, faça backup das variáveis atuais para poder reverter em caso de comportamento inesperado.
