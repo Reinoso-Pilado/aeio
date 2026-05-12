@@ -1,0 +1,19 @@
+Show All Items ("Show All Hidden Items")
+
+Source:
+- IFR: artifacts/uefi/setup/Setup.ifr.txt (lines ~32540-32550)
+- PE32: artifacts/uefi/setup/Setup_PE32_body.bin
+
+VarStore:
+- Name: Setup
+- GUID: EC87D643-EBA4-4BB5-A1E5-3F3E36B20DA9
+- VarStoreId: 0xF101
+
+Question:
+- QuestionId: 0x10CB
+- VarOffset: 0x2 (Size 8)
+- Options:
+  - Enabled = 0
+  - Disabled = 1 (Default, MfgDefault)
+
+Para liberar todos os menus, defina Setup[0x2] = 0 (Enabled).
